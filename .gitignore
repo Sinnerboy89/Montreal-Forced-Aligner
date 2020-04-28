@@ -77,3 +77,5 @@ target/
 
 \.pytest_cache/
 *_helper.sh
+lexicons
+.vscode/*
