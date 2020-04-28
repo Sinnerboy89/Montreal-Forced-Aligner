@@ -26,7 +26,7 @@ with open(sys.argv[3], "r") as f:
             continue
 
         ctr += 1
-        if row[7] != "england":
+        if row[7] != sys.argv[4]:
             continue
 
         speaker_id = row[0]
