@@ -76,3 +76,4 @@ target/
 *.dll
 
 \.pytest_cache/
+*_helper.sh
