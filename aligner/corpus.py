@@ -289,7 +289,7 @@ class Corpus(object):
                 wav_path = os.path.join(root, f)
                 try:
                     sr = get_sample_rate(wav_path)
-                except wave.Error:
+                except:
                     self.wav_read_errors.append(wav_path)
                     continue
                 if sr < 16000:
