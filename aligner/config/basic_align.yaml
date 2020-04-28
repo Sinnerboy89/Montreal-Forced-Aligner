@@ -4,5 +4,4 @@ retry_beam: 40
 features:
   type: "mfcc"
   frame_shift: 10
-
-
+  lda: true
