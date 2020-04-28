@@ -31,25 +31,3 @@ training:
           splice_left_context: 3
           splice_right_context: 3
 
-  - sat:
-      num_leaves: 2500
-      max_gaussians: 15000
-      power: 0.2
-      silence_weight: 0.0
-      fmllr_update_type: "diag"
-      subset: 10000
-      features:
-          lda: true
-
-  - sat:
-      calc_pron_probs: true
-      num_leaves: 4200
-      max_gaussians: 40000
-      power: 0.2
-      silence_weight: 0.0
-      fmllr_update_type: "diag"
-      subset: 30000
-      features:
-          lda: true
-          fmllr: true
-
