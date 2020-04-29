@@ -20,12 +20,12 @@ common_options = [
     "--clean",
     "-y",
     "--additional-hooks-dir=" + os.path.join(root_dir, "freezing", "hooks"),
-    # "--exclude-module=tkinter",
-    # "--exclude-module=matplotlib",
-    # "--exclude-module=pytz",
-    # "--exclude-module=sphinx",
-    # '--exclude-module=numpy',
-    # "--exclude-module=scipy",
+    "--exclude-module=tkinter",
+    "--exclude-module=matplotlib",
+    "--exclude-module=pytz",
+    "--exclude-module=sphinx",
+    "--exclude-module=numpy",
+    "--exclude-module=scipy",
 ]
 
 # executables = ['train_and_align', 'align',
