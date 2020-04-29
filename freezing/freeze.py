@@ -16,17 +16,16 @@ dist_dir = os.path.join(root_dir, "dist")
 shutil.rmtree(dist_dir, ignore_errors=True)
 
 # Generate executables
-
 common_options = [
     "--clean",
     "-y",
     "--additional-hooks-dir=" + os.path.join(root_dir, "freezing", "hooks"),
-    "--exclude-module=tkinter",
-    "--exclude-module=matplotlib",
-    "--exclude-module=pytz",
-    "--exclude-module=sphinx",
+    # "--exclude-module=tkinter",
+    # "--exclude-module=matplotlib",
+    # "--exclude-module=pytz",
+    # "--exclude-module=sphinx",
     # '--exclude-module=numpy',
-    "--exclude-module=scipy",
+    # "--exclude-module=scipy",
 ]
 
 # executables = ['train_and_align', 'align',
@@ -103,7 +102,6 @@ for f in os.listdir(orig_thirdparty_dir):
         shutil.copystat(os.path.join(orig_thirdparty_dir, f), os.path.join(out_dir, f))
 
 # Create distributable archive
-
 for d in executables:
     d = os.path.join(dist_dir, d)
     if os.path.exists(d):
