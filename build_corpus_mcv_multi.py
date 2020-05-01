@@ -1,8 +1,7 @@
-import sys, logging, csv, os
+import sys, csv, os
 from pathlib import Path
 from shutil import copy
 from tqdm import tqdm
-
 
 input_dir = Path(sys.argv[1])
 output_dir = Path(sys.argv[2])
@@ -11,13 +10,8 @@ if not output_dir.is_dir():
 
 tsvfile = csv.reader(open(sys.argv[3], "r"), delimiter="\t")
 
-ctr = 0
 for row in tqdm(tsvfile):
     if row[0] == "client_id":
-        continue
-
-    ctr += 1
-    if row[7] != sys.argv[4]:
         continue
 
     speaker_id = row[0]
