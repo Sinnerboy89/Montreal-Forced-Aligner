@@ -97,6 +97,8 @@ for f in os.listdir(orig_thirdparty_dir):
                     os.path.relpath(lib_exe_path, out_dir), os.path.join(out_dir, f)
                 )
                 break
+        shutil.copyfile(os.path.join(orig_thirdparty_dir, f), os.path.join(out_dir, f))
+        shutil.copystat(os.path.join(orig_thirdparty_dir, f), os.path.join(out_dir, f))
     else:
         shutil.copyfile(os.path.join(orig_thirdparty_dir, f), os.path.join(out_dir, f))
         shutil.copystat(os.path.join(orig_thirdparty_dir, f), os.path.join(out_dir, f))
