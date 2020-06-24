@@ -92,7 +92,6 @@ def collect_linux_tools_binaries(directory):
                     lib = os.path.basename(l)
                     subprocess.call(['install_name_tool', '-change', l, '@loader_path/' + lib, out_path])
     for name in os.listdir(lib_dir):
-        import pdb; pdb.set_trace()
         if name in included_libraries[sys.platform]:
             if sys.platform == 'win32':
                 shutil.copy(os.path.join(lib_dir, name), bin_out)
