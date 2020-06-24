@@ -35,8 +35,8 @@ included_filenames = ['acc-lda', 'acc-tree-stats', 'add-deltas', 'ali-to-pdf', '
                       'splice-feats', 'subsample-feats', 'sum-lda-accs', 'sum-tree-stats', 'transform-feats',
                       'tree-info', 'vector-sum', 'weight-silence-post']
 
-linux_libraries = ['libfst.so.13', 'libfstfar.so.13', 'libngram.so.13',
-                   'libfstscript.so.13', 'libfstfarscript.so.13',
+linux_libraries = ['libfst.so.1.0.0', 'libfstfar.so.1.0.0', 'libngram.so.1.0.0',
+                   'libfstscript.so.1.0.0', 'libfstfarscript.so.1.0.0',
                    'libkaldi-hmm.so', 'libkaldi-util.so', 'libkaldi-thread.so',
                    'libkaldi-base.so', 'libkaldi-tree.so', 'libkaldi-matrix.so',
                    'libkaldi-feat.so', 'libkaldi-transform.so', 'libkaldi-lm.so',
