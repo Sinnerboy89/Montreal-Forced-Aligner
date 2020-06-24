@@ -35,8 +35,8 @@ included_filenames = ['acc-lda', 'acc-tree-stats', 'add-deltas', 'ali-to-pdf', '
                       'splice-feats', 'subsample-feats', 'sum-lda-accs', 'sum-tree-stats', 'transform-feats',
                       'tree-info', 'vector-sum', 'weight-silence-post']
 
-linux_libraries = ['libfst.so.1.0.0', 'libfstfar.so.1.0.0', 'libngram.so.1.0.0',
-                   'libfstscript.so.1.0.0', 'libfstfarscript.so.1.0.0',
+linux_libraries = ['libfst.so', 'libfstfar.so', 'libngram.so',
+                   'libfstscript.so', 'libfstfarscript.so',
                    'libkaldi-hmm.so', 'libkaldi-util.so', 'libkaldi-thread.so',
                    'libkaldi-base.so', 'libkaldi-tree.so', 'libkaldi-matrix.so',
                    'libkaldi-feat.so', 'libkaldi-transform.so', 'libkaldi-lm.so',
@@ -92,6 +92,7 @@ def collect_linux_tools_binaries(directory):
                     lib = os.path.basename(l)
                     subprocess.call(['install_name_tool', '-change', l, '@loader_path/' + lib, out_path])
     for name in os.listdir(lib_dir):
+        import pdb; pdb.set_trace()
         if name in included_libraries[sys.platform]:
             if sys.platform == 'win32':
                 shutil.copy(os.path.join(lib_dir, name), bin_out)
