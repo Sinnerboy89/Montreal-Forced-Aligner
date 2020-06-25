@@ -110,11 +110,11 @@ included_filenames = [
 ]
 
 linux_libraries = [
-    "libfst.so",
-    "libfstfar.so",
-    "libngram.so",
-    "libfstscript.so",
-    "libfstfarscript.so",
+    "libfst.so.10",
+    "libfstfar.so.10",
+    "libngram.so.10",
+    "libfstscript.so.10",
+    "libfstfarscript.so.10",
     "libkaldi-hmm.so",
     "libkaldi-util.so",
     "libkaldi-thread.so",
