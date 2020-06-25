@@ -861,8 +861,8 @@ def convert_ali_to_textgrids(
     with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         r = False
         try:
-            results = [pool.apply_async(ali_to_textgrid_func, args=i) for i in jobs]
-            output = [p.get() for p in results]
+            results = [pool.apply(ali_to_textgrid_func, args=i) for i in jobs]
+            # output = [p.get() for p in results]
         except OSError as e:
             if hasattr(e, "errno") and e.errorno == 24:
                 r = True
