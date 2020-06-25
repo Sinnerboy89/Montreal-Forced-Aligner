@@ -66,6 +66,9 @@ def acc_stats(iteration, directory, split_directory, num_jobs, config):
         defaults to False
 
     """
+
+    child_env = os.environ.copy()
+
     feat_name = config.feature_file_base_name
 
     feat_name += ".{}.scp"
@@ -76,7 +79,7 @@ def acc_stats(iteration, directory, split_directory, num_jobs, config):
     ]
     for job in jobs:
         acc_stats_func(job)
-    # with mp.Pool(processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)) as pool:
+    # with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
     #     results = [pool.apply_async(acc_stats_func, args=i) for i in jobs]
     #     output = [p.get() for p in results]
 
@@ -252,14 +255,15 @@ def compile_train_graphs(
     num_jobs : int
         The number of processes to use
     """
+
+    child_env = os.environ.copy()
+
     os.makedirs(os.path.join(directory, "log"), exist_ok=True)
     jobs = [
         (directory, lang_directory, split_directory, x, debug) for x in range(num_jobs)
     ]
 
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(compile_train_graphs_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -319,6 +323,9 @@ def mono_align_equal(mono_directory, split_directory, num_jobs, config):
     num_jobs : int
         The number of processes to use
     """
+
+    child_env = os.environ.copy()
+
     jobs = [
         (
             mono_directory,
@@ -331,9 +338,7 @@ def mono_align_equal(mono_directory, split_directory, num_jobs, config):
         for x in range(num_jobs)
     ]
 
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(mono_align_equal_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -421,6 +426,9 @@ def align(
     config : :class:`~aligner.config.MonophoneConfig`, :class:`~aligner.config.TriphoneConfig` or :class:`~aligner.config.TriphoneFmllrConfig`
         Configuration object for training
     """
+
+    child_env = os.environ.copy()
+
     if output_directory is None:
         output_directory = directory
     mdl_path = os.path.join(directory, "{}.mdl".format(iteration))
@@ -445,9 +453,7 @@ def align(
         for x in range(num_jobs)
     ]
 
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(align_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -488,13 +494,12 @@ def compile_information_func(log_directory, corpus, job_num):
 
 
 def compile_information(model_directory, corpus, num_jobs):
+    child_env = os.environ.copy()
     log_dir = os.path.join(model_directory, "log")
 
     jobs = [(log_dir, corpus, x) for x in range(num_jobs)]
 
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(compile_information_func, args=i) for i in jobs]
         output = [p.get() for p in results]
     unaligned = {}
@@ -650,11 +655,10 @@ def compare_alignments(alignments_one, alignments_two, frame_shift):
 
 
 def compute_alignment_improvement(iteration, config, model_directory, num_jobs):
+    child_env = os.environ.copy()
     jobs = [(iteration, config, model_directory, x) for x in range(num_jobs)]
 
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         r = False
         try:
             results = [
@@ -848,13 +852,14 @@ def convert_ali_to_textgrids(
         allowed to be open on the computer (for Unix-based systems)
 
     """
+
+    child_env = os.environ.copy()
+
     jobs = [
         (align_config, model_directory, dictionary, corpus, x) for x in range(num_jobs)
     ]
 
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         r = False
         try:
             results = [pool.apply_async(ali_to_textgrid_func, args=i) for i in jobs]
@@ -942,6 +947,9 @@ def tree_stats(
         defaults to False
 
     """
+
+    child_env = os.environ.copy()
+
     feat_name = config.feature_file_base_name
 
     if "_fmllr" in feat_name:
@@ -961,9 +969,7 @@ def tree_stats(
         )
         for x in range(num_jobs)
     ]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(tree_stats_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -1022,10 +1028,10 @@ def convert_alignments(directory, align_directory, num_jobs):
 
     """
 
+    child_env = os.environ.copy()
+
     jobs = [(directory, align_directory, x) for x in range(num_jobs)]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(convert_alignments_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -1178,6 +1184,9 @@ def calc_fmllr(
         Specifies the current iteration, defaults to None
 
     """
+
+    child_env = os.environ.copy()
+
     if iteration is None:
         if initial:
             model_name = "1"
@@ -1189,9 +1198,7 @@ def calc_fmllr(
         (directory, split_directory, sil_phones, x, config, initial, model_name)
         for x in range(num_jobs)
     ]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(calc_fmllr_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -1272,13 +1279,14 @@ def lda_acc_stats(directory, split_dir, align_directory, config, ci_phones, num_
         The number of processes to use in calculation
 
     """
+
+    child_env = os.environ.copy()
+
     jobs = [
         (directory, split_dir, align_directory, config, ci_phones, x)
         for x in range(num_jobs)
     ]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(lda_acc_stats_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -1406,6 +1414,9 @@ def calc_lda_mllt(
         The number of iterations
 
     """
+
+    child_env = os.environ.copy()
+
     if iteration is None:
         model_name = "final"
     else:
@@ -1414,9 +1425,7 @@ def calc_lda_mllt(
         (directory, split_directory, sil_phones, x, config, initial, model_name)
         for x in range(num_jobs)
     ]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(calc_lda_mllt_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -1525,10 +1534,11 @@ def gmm_gselect(config, num_jobs):
         The number of processes to use in calculation
 
     """
+
+    child_env = os.environ.copy()
+
     jobs = [(config, x) for x in range(num_jobs)]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(gmm_gselect_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -1595,10 +1605,11 @@ def acc_global_stats(config, num_jobs, iteration):
         Iteration to calculate stats for
 
     """
+
+    child_env = os.environ.copy()
+
     jobs = [(config, x, iteration) for x in range(num_jobs)]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(acc_global_stats_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -1674,10 +1685,11 @@ def gauss_to_post(config, num_jobs):
     num_jobs : int
         The number of processes to use in calculation
     """
+
+    child_env = os.environ.copy()
+
     jobs = [(config, x) for x in range(num_jobs)]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(gauss_to_post_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -1746,10 +1758,11 @@ def acc_ivector_stats(config, num_jobs, iteration):
     iteration : int
         Iteration to calculate stats for
     """
+
+    child_env = os.environ.copy()
+
     jobs = [(config, x, iteration) for x in range(num_jobs)]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(acc_ivector_stats_func, args=i) for i in jobs]
         output = [p.get() for p in results]
     accinits = [
@@ -1947,10 +1960,11 @@ def extract_ivectors(config, num_jobs):
     num_jobs : int
         The number of processes to use in calculation
     """
+
+    child_env = os.environ.copy()
+
     jobs = [(config, x) for x in range(num_jobs)]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(extract_ivectors_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -2114,6 +2128,8 @@ def get_egs(config, ali_dir, valid_uttlist, train_subset_uttlist):
     num_jobs : int
         The number of processes to use in calculation
     """
+
+    child_env = os.environ.copy()
 
     jobs = [
         (config, ali_dir, valid_uttlist, train_subset_uttlist, x)
@@ -2281,10 +2297,10 @@ def get_lda_nnet(config, align_directory, num_jobs):
         The number of processes to use in calculation
     """
 
+    child_env = os.environ.copy()
+
     jobs = [(config, align_directory, x) for x in range(num_jobs)]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(get_lda_nnet_func, args=i) for i in jobs]
         output = [p.get() for p in results]
     log_path = os.path.join(config.train_directory, "log", "lda_matrix.log")
@@ -2410,10 +2426,11 @@ def nnet_train(nnet_dir, egs_dir, mdl, i, num_jobs):
     num_jobs : int
         The number of processes to use in calculation
     """
+
+    child_env = os.environ.copy()
+
     jobs = [(nnet_dir, egs_dir, mdl, i, x) for x in range(num_jobs)]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(nnet_train_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -2480,11 +2497,11 @@ def nnet_align(i, config, train_directory, align_directory, num_jobs):
         The number of processes to use in calculation
     """
 
+    child_env = os.environ.copy()
+
     jobs = [(i, config, train_directory, align_directory, x) for x in range(num_jobs)]
 
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(nnet_align_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -2532,10 +2549,11 @@ def compute_prob(i, nnet_dir, egs_dir, model_path, num_jobs):
     num_jobs : int
         The number of processes to use in calculation
     """
+
+    child_env = os.environ.copy()
+
     jobs = [(i, nnet_dir, egs_dir, model_path, x) for x in range(num_jobs)]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(compute_prob_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -2685,6 +2703,9 @@ def convert_ali_to_textgrids_kaldi(
         allowed to be open on the computer (for Unix-based systems)
 
     """
+
+    child_env = os.environ.copy()
+
     jobs = [
         (
             ali_directory,
@@ -2698,9 +2719,7 @@ def convert_ali_to_textgrids_kaldi(
         for x in range(num_jobs)
     ]
 
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         r = False
         try:
             results = [
@@ -2822,10 +2841,11 @@ def get_average_posteriors(i, nnet_dir, prev_egs_dir, config, num_jobs):
     num_jobs : int
         The number of processes to use in calculation
     """
+
+    child_env = os.environ.copy()
+
     jobs = [(i, nnet_dir, prev_egs_dir, config, x) for x in range(num_jobs)]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(get_average_posteriors_func, args=i) for i in jobs]
         output = [p.get() for p in results]
 
@@ -2881,9 +2901,10 @@ def relabel_egs(i, nnet_dir, egs_in, alignments, egs_out, num_jobs):
     num_jobs : int
         The number of processes to use in calculation
     """
+
+    child_env = os.environ.copy()
+
     jobs = [(i, nnet_dir, egs_in, alignments, egs_out, x) for x in range(num_jobs)]
-    with mp.Pool(
-        processes=num_jobs, initializer=init, initargs=(os.environ.copy(),)
-    ) as pool:
+    with mp.Pool(processes=num_jobs, initializer=init, initargs=(child_env,)) as pool:
         results = [pool.apply_async(relabel_egs_func, args=i) for i in jobs]
         output = [p.get() for p in results]
