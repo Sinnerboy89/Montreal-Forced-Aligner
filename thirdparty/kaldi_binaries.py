@@ -184,6 +184,17 @@ def collect_linux_tools_binaries(directory):
     openfst_dir = os.path.join(tools_dir, "openfst")
     bin_dir = os.path.join(openfst_dir, "bin")
     lib_dir = os.path.join(openfst_dir, "lib")
+    fortran_dir = os.path.join(outdirectory, "fortran_lib")
+
+    # include libgfortran lib needed by kaldi's make_mfcc
+    for name in os.listdir(fortran_dir):
+        actual_lib = os.path.join(fortran_dir, name)
+        while os.path.islink(actual_lib):
+            linkto = os.readlink(actual_lib)
+            actual_lib = os.path.join(fortran_dir, linkto)
+        bin_name = os.path.join(bin_out, name)
+        shutil.copyfile(actual_lib, bin_name)
+
     for name in os.listdir(bin_dir):
         if os.path.islink(os.path.join(bin_dir, name)):
             continue
