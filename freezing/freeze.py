@@ -26,12 +26,13 @@ common_options = [
     "--exclude-module=sphinx",
     "--exclude-module=numpy",
     "--exclude-module=scipy",
+    "--exclude-module=django",
 ]
 
 # executables = ['train_and_align', 'align',
 #                'generate_dictionary', 'train_g2p',
 #                'validate_dataset']
-executables = ["train_and_align", "align"]
+executables = ["align"]
 
 executable_template = os.path.join(root_dir, "aligner", "command_line", "{}.py")
 for e in executables:
