@@ -27,6 +27,10 @@ common_options = [
     "--exclude-module=numpy",
     "--exclude-module=scipy",
     "--exclude-module=django",
+    "--exclude-module=botocore",
+    "--exclude-module=notebook",
+    "--exclude-module=pandas",
+    "--exclude-module=wx",
 ]
 
 # executables = ['train_and_align', 'align',
