@@ -92,30 +92,30 @@ for f in os.listdir(orig_thirdparty_dir):
         shutil.copystat(os.path.join(orig_thirdparty_dir, f), os.path.join(out_dir, f))
 
 # Create distributable archive
-d = os.path.join(dist_dir, "align")
-if os.path.exists(d):
-    shutil.rmtree(d)
-if sys.platform == "win32":
-    plat = "win64"
-elif sys.platform == "darwin":
-    plat = "macosx"
-else:
-    plat = "linux"
-zip_path = os.path.join(dist_dir, "montreal-forced-aligner_{}".format(plat))
-if sys.platform == "linux":
-    format = "gztar"
-else:
-    format = "zip"
-if sys.platform == "darwin":
-    subprocess.run(
-        [
-            "zip",
-            "-y",
-            "-r",
-            "montreal-forced-aligner_{}.zip".format(plat),
-            "montreal-forced-aligner",
-        ],
-        cwd=dist_dir,
-    )
-else:
-    shutil.make_archive(zip_path, format, dist_dir)
+# d = os.path.join(dist_dir, "align")
+# if os.path.exists(d):
+#     shutil.rmtree(d)
+# if sys.platform == "win32":
+#     plat = "win64"
+# elif sys.platform == "darwin":
+#     plat = "macosx"
+# else:
+#     plat = "linux"
+# zip_path = os.path.join(dist_dir, "montreal-forced-aligner_{}".format(plat))
+# if sys.platform == "linux":
+#     format = "gztar"
+# else:
+#     format = "zip"
+# if sys.platform == "darwin":
+#     subprocess.run(
+#         [
+#             "zip",
+#             "-y",
+#             "-r",
+#             "montreal-forced-aligner_{}.zip".format(plat),
+#             "montreal-forced-aligner",
+#         ],
+#         cwd=dist_dir,
+#     )
+# else:
+#     shutil.make_archive(zip_path, format, dist_dir)
