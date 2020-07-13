@@ -6,6 +6,7 @@ import argparse
 import multiprocessing as mp
 import yaml
 
+sys.path.append(os.path.expanduser("~") + "/Montreal-Forced-Aligner")
 from aligner import __version__
 from aligner.corpus import Corpus
 from aligner.dictionary import Dictionary
