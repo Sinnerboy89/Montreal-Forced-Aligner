@@ -11,35 +11,35 @@ def make_path_safe(path):
 
 
 def load_text(path):
-    with open(path, 'r', encoding='utf8') as f:
+    with open(path, "r", encoding="utf8") as f:
         text = f.read().strip().lower()
     return text
 
 
 def make_safe(element):
     if isinstance(element, list):
-        return ' '.join(map(make_safe, element))
+        return " ".join(map(make_safe, element))
     return str(element)
 
 
 def output_mapping(mapping, path):
-    with open(path, 'w', encoding='utf8') as f:
+    with open(path, "w", encoding="utf8") as f:
         for k in sorted(mapping.keys()):
             v = mapping[k]
             if isinstance(v, list):
-                v = ' '.join(v)
-            f.write('{} {}\n'.format(k, v))
+                v = " ".join(v)
+            f.write("{} {}\n".format(k, v))
 
 
 def save_scp(scp, path, sort=True, multiline=False):
-    with open(path, 'w', encoding='utf8') as f:
+    with open(path, "w", encoding="utf8") as f:
         if sort:
             scp = sorted(scp)
         for line in scp:
             if multiline:
-                f.write('{}\n{}\n'.format(make_safe(line[0]), make_safe(line[1])))
+                f.write("{}\n{}\n".format(make_safe(line[0]), make_safe(line[1])))
             else:
-                f.write('{}\n'.format(' '.join(map(make_safe, line))))
+                f.write("{}\n".format(" ".join(map(make_safe, line))))
 
 
 def save_groups(groups, seg_dir, pattern, multiline=False):
@@ -49,7 +49,7 @@ def save_groups(groups, seg_dir, pattern, multiline=False):
 
 
 def load_scp(path):
-    '''
+    """
     Load a Kaldi script file (.scp)
 
     See http://kaldi-asr.org/doc/io.html#io_sec_scp_details for more information
@@ -65,12 +65,12 @@ def load_scp(path):
         Dictionary where the keys are the first couple and the values are all
         other columns in the script file
 
-    '''
+    """
     scp = {}
-    with open(path, 'r', encoding='utf8') as f:
+    with open(path, "r", encoding="utf8") as f:
         for line in f:
             line = line.strip()
-            if line == '':
+            if line == "":
                 continue
             line_list = line.split()
             key = line_list.pop(0)
@@ -91,7 +91,7 @@ def filter_scp(uttlist, scp, exclude=False):
     input_lines = []
     if not isinstance(scp, list) and os.path.exists(scp):
         # If path provided
-        with open(scp, 'r') as fp:
+        with open(scp, "r") as fp:
             input_lines = fp.readlines()
     else:
         # If list provided

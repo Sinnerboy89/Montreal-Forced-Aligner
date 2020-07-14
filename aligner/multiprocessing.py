@@ -390,7 +390,7 @@ def align_no_pool(
     )
 
 
-def align(
+def mp_align(
     iteration,
     directory,
     split_directory,
