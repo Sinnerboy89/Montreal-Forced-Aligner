@@ -151,7 +151,7 @@ class Dictionary(object):
                     continue
                 if (
                     word_set is not None and sanitize(word) not in word_set
-                ):  # this doesn't seem to accommodate Chinese chars
+                ):  # this doesn't seem to accommodate Chinese chars, but slows down aligner when turned off
                     continue
                 self.graphemes.update(word)
                 try:

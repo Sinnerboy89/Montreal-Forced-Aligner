@@ -46,6 +46,10 @@ def fix_path():
     if sys.platform == "win32":
         # os.environ['PATH'] = thirdparty_dir + ';' + os.environ['PATH']
         os.environ["PATH"] = thirdparty_dir + ";" + old_path
+    elif sys.platform == "darwin":
+        os.environ["DYLD_FALLBACK_LIBRARY_PATH"] = (
+            thirdparty_dir + ":" + os.environ.get("DYLD_FALLBACK_LIBRARY_PATH", "")
+        )
     else:
         # os.environ['PATH'] = thirdparty_dir + ':' + os.environ['PATH']
         os.environ["PATH"] = thirdparty_dir + ":" + old_path
