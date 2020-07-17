@@ -50,6 +50,10 @@ def fix_path():
         os.environ["DYLD_FALLBACK_LIBRARY_PATH"] = (
             thirdparty_dir + ":" + os.environ.get("DYLD_FALLBACK_LIBRARY_PATH", "")
         )
+        os.environ["PATH"] = thirdparty_dir + ":" + old_path
+        os.environ["LD_LIBRARY_PATH"] = (
+            thirdparty_dir + ":" + os.environ.get("LD_LIBRARY_PATH", "")
+        )
     else:
         # os.environ['PATH'] = thirdparty_dir + ':' + os.environ['PATH']
         os.environ["PATH"] = thirdparty_dir + ":" + old_path
