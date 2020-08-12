@@ -35,6 +35,13 @@ def fix_path():
         base_dir = os.path.dirname(sys.executable)
         if sys.platform == "win32":
             thirdparty_dir = os.path.join(base_dir, "thirdparty", "bin")
+
+        # fixes for Mac build
+        elif sys.platform == "darwin" and os.path.isfile(
+            os.path.join(sys.exec_prefix, "python")
+        ):
+            mp.set_start_method("fork")
+            thirdparty_dir = os.path.join(base_dir, "../Resources", "thirdparty", "bin")
         else:
             thirdparty_dir = os.path.join(base_dir, "thirdparty", "bin")
     else:
@@ -44,18 +51,13 @@ def fix_path():
         thirdparty_dir = os.path.join(base_dir, "thirdparty", "bin")
     old_path = os.environ.get("PATH", "")
     if sys.platform == "win32":
-        # os.environ['PATH'] = thirdparty_dir + ';' + os.environ['PATH']
         os.environ["PATH"] = thirdparty_dir + ";" + old_path
     elif sys.platform == "darwin":
-        os.environ["DYLD_FALLBACK_LIBRARY_PATH"] = (
-            thirdparty_dir + ":" + os.environ.get("DYLD_FALLBACK_LIBRARY_PATH", "")
-        )
         os.environ["PATH"] = thirdparty_dir + ":" + old_path
         os.environ["LD_LIBRARY_PATH"] = (
             thirdparty_dir + ":" + os.environ.get("LD_LIBRARY_PATH", "")
         )
     else:
-        # os.environ['PATH'] = thirdparty_dir + ':' + os.environ['PATH']
         os.environ["PATH"] = thirdparty_dir + ":" + old_path
         os.environ["LD_LIBRARY_PATH"] = (
             thirdparty_dir + ":" + os.environ.get("LD_LIBRARY_PATH", "")
